@@ -3,24 +3,18 @@ require 'json'
 require 'gift'
 
 describe Gift do
-  describe '#find' do
+  describe '#results_for' do
     context 'given a json string and gift name' do
     	it 'should return records for that title' do
-    		json_string = '{"gift_ideas":[{"gift_idea":{"title":"Porsche 911 Carerra S","id":1,"type":"car"}},{"gift_idea":{"title":"Porsche 911 Carerra S","id":2,"type":"car"}},{"gift_idea":{"title":"Hugo_boss","id":null,"type":"handbag"}}]}'
-    		parsed = JSON.parse(json_string)
-    		result = Gift.find("Porsche 911 Carerra S")
-    		p result
+    		result = Gift.results_for("Porsche 911 Carerra S")
+    		result.first["gift_idea"]["title"].should eq "Porsche 911 Carerra S"
     	end
       it 'should return all records with that title' do
-        json_string = '{"gift_ideas":[{"gift_idea":{"title":"Porsche 911 Carerra S","id":1,"type":"car"}},{"gift_idea":{"title":"Porsche 911 Carerra S","id":2,"type":"car"}},{"gift_idea":{"title":"Hugo_boss","id":null,"type":"handbag"}}]}'
-        parsed = JSON.parse(json_string)
-        result = Gift.find("Porsche 911 Carerra S")
+        result = Gift.results_for("Porsche 911 Carerra S")
         result.count.should eq 1
       end
       it 'should not return record if ID is null' do
-        json_string = '{"gift_ideas":[{"gift_idea":{"title":"Porsche 911 Carerra S","id":1,"type":"car"}},{"gift_idea":{"title":"Porsche 911 Carerra S","id":2,"type":"car"}},{"gift_idea":{"title":"Hugo_boss","id":null,"type":"handbag"}}]}'
-        parsed = JSON.parse(json_string)
-        result = Gift.find("Porsche 911 Carerra S")
+        result = Gift.results_for("Porsche 911 Carerra S")
         result.count.should_not eq 2
       end
      end
