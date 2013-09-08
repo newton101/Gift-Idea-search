@@ -18,7 +18,6 @@ class SearchGiftIdeas
   private
 
   def search_ids(string)
-    puts index.class
     string.split.map { |term| index[term] }.flatten.uniq
   end
 
